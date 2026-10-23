@@ -1,0 +1,81 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#1f3a60;">Greet your customers properly</h2>
+        <h3 class="oe_slogan">
+            A letter salutation on the contact and the matching greeting line in the
+            invoice and credit note mails
+        </h3>
+        <div class="oe_demo oe_picture oe_screenshot">
+            <img src="mail.png" alt="The invoice mail with the greeting line" />
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#1f3a60;">What it does</h2>
+        <div class="oe_span6">
+            <ul>
+                <li>
+                    A field <i>Letter Salutation</i> on the contact, for example "Frau
+                    Muster" or "Herr Dr. Meier".
+                </li>
+                <li>
+                    The greeting line in the language of the mail: "Guten Tag Frau Muster,",
+                    "Dear Frau Muster," or "Bonjour Frau Muster,".
+                </li>
+                <li>
+                    Without a salutation, persons are greeted by their name, companies and
+                    addresses such as an invoice address in general terms ("Dear Sir or
+                    Madam,").
+                </li>
+            </ul>
+        </div>
+        <div class="oe_span6">
+            <ul>
+                <li>
+                    Odoo 19 has no title field on contacts any more, and its invoice mail
+                    greets "Dear Anna Beispiel (Muster GmbH)," or an invoice address by its
+                    name.
+                </li>
+                <li>
+                    On installation, the invoice and the credit note mail use the greeting
+                    line in every language, also in languages installed later.
+                    Uninstalling puts the original greeting back.
+                </li>
+                <li>
+                    Other templates can use it too:
+                    <code>&lt;t t-out="object.partner_id.letter_greeting"/&gt;</code>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#1f3a60;">One field on the contact</h2>
+        <h3 class="oe_slogan">Next to the job position</h3>
+        <div class="oe_demo oe_picture oe_screenshot">
+            <img src="contact.png" alt="A contact with its letter salutation" />
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="color:#1f3a60;">Good to know</h2>
+        <ul>
+            <li>German, English and French; other languages get the English greeting.</li>
+            <li>
+                An invoice or credit note mail whose first paragraph does not start with
+                Odoo's greeting is left unchanged.
+            </li>
+            <li>
+                Alpha: the invoice mails of Baumgärtner Marketing GmbH have started like this
+                since September 2026, the module is new. Provided without any warranty under
+                the GNU AGPL-3.0.
+            </li>
+        </ul>
+    </div>
+</section>

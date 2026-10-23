@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_letter_salutation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261015\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-23 05:57+0000\n"
+"PO-Revision-Date: 2026-10-23 05:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_letter_salutation
+#: model:ir.model,name:partner_letter_salutation.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: partner_letter_salutation
+#. odoo-python
+#: code:addons/partner_letter_salutation/models/res_partner.py:0
+msgid "Dear %(name)s,"
+msgstr ""
+
+#. module: partner_letter_salutation
+#. odoo-python
+#: code:addons/partner_letter_salutation/models/res_partner.py:0
+msgid "Dear Sir or Madam,"
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_partner__letter_greeting
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_users__letter_greeting
+msgid "Greeting"
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,help:partner_letter_salutation.field_res_partner__letter_greeting
+#: model:ir.model.fields,help:partner_letter_salutation.field_res_users__letter_greeting
+msgid ""
+"Greeting line of mails to this contact, in the language of the mail, for "
+"example „Guten Tag Frau Muster,“ or „Dear Sir or Madam,“."
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,help:partner_letter_salutation.field_res_partner__letter_salutation
+#: model:ir.model.fields,help:partner_letter_salutation.field_res_users__letter_salutation
+msgid ""
+"How the contact is addressed in mails, for example „Frau Muster“ or „Herr Dr."
+" Meier“. Empty: persons are addressed by their name, companies and addresses"
+" such as an invoice address in general terms."
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_partner__letter_salutation
+#: model:ir.model.fields,field_description:partner_letter_salutation.field_res_users__letter_salutation
+msgid "Letter Salutation"
+msgstr ""
+
+#. module: partner_letter_salutation
+#: model_terms:ir.ui.view,arch_db:partner_letter_salutation.view_partner_form
+msgid "e.g. Frau Muster"
+msgstr ""

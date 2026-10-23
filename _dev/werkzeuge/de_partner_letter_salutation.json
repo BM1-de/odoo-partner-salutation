@@ -1,0 +1,12 @@
+{
+ "Contact": "Kontakt",
+ "Dear %(name)s,": "Guten Tag %(name)s,",
+ "Dear Sir or Madam,": "Guten Tag,",
+ "Display Name": "Anzeigename",
+ "Greeting": "Grußzeile",
+ "Greeting line of mails to this contact, in the language of the mail, for example „Guten Tag Frau Muster,“ or „Dear Sir or Madam,“.": "Grußzeile von Mails an diesen Kontakt, in der Sprache der Mail, zum Beispiel „Guten Tag Frau Muster,“ oder „Dear Sir or Madam,“.",
+ "How the contact is addressed in mails, for example „Frau Muster“ or „Herr Dr. Meier“. Empty: persons are addressed by their name, companies and addresses such as an invoice address in general terms.": "Wie der Kontakt in Mails angesprochen wird, zum Beispiel „Frau Muster“ oder „Herr Dr. Meier“. Leer: Personen mit ihrem Namen, Firmen und Adressen wie eine Rechnungsadresse allgemein.",
+ "ID": "ID",
+ "Letter Salutation": "Briefanrede",
+ "e.g. Frau Muster": "z. B. Frau Muster"
+}

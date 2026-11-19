@@ -47,19 +47,62 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
         self.invoice_address.letter_salutation = "Frau Muster"
         self.assertEqual(self.greeting(self.invoice_address), "Dear Frau Muster,")
 
-    def test_company_is_what_odoo_computes(self):
-        """A contact without a tax ID is a person to Odoo 20, whatever its name."""
-        self.assertTrue(self.company_partner.is_company)
-        association = self.env["res.partner"].create(
-            {"name": "Sportverein Musterstadt", "is_company": True}
+    def test_contact_without_parent_is_greeted_in_general_terms(self):
+        """Without a salutation, only a contact person of a company gets its name.
+
+        Odoo 20 computes a contact without a tax ID as a person, also an
+        association, and has no first and last names: a contact without a parent
+        contact is greeted in general terms, with or without a tax ID.
+        """
+        Partner = self.env["res.partner"]
+        association = Partner.create({"name": "Sportverein Musterstadt"})
+        private_customer = Partner.create({"name": "Erika Beispiel"})
+        member = Partner.create(
+            {"name": "Max Muster", "parent_id": association.id, "type": "contact"}
         )
+        self.assertTrue(self.company_partner.is_company)
         self.assertFalse(association.is_company)
-        self.assertEqual(self.greeting(association), "Dear Sportverein Musterstadt,")
-        association.vat = "DE987654321"
-        self.assertTrue(association.is_company)
-        self.assertEqual(self.greeting(association), "Dear Sir or Madam,")
-        # a person stays a person, also the contact of a company with a tax ID
-        self.assertFalse(self.person.is_company)
+        for partner in (association, private_customer, self.company_partner):
+            self.assertEqual(self.greeting(partner), "Dear Sir or Madam,")
+        # contact persons are greeted by their name, also below an association
+        self.assertEqual(self.greeting(member), "Dear Max Muster,")
+        self.assertEqual(self.greeting(self.person), "Dear Anna Beispiel,")
+        # a salutation is used for every contact
+        association.letter_salutation = "Vorstand Sportverein Musterstadt"
+        private_customer.letter_salutation = "Frau Beispiel"
+        self.assertEqual(
+            self.greeting(association), "Dear Vorstand Sportverein Musterstadt,"
+        )
+        self.assertEqual(self.greeting(private_customer), "Dear Frau Beispiel,")
+        # the greeting follows when a contact gets or loses its parent contact
+        association.letter_salutation = False
+        private_customer.parent_id = association
+        self.assertEqual(self.greeting(private_customer), "Dear Frau Beispiel,")
+        private_customer.letter_salutation = " "
+        self.assertEqual(self.greeting(private_customer), "Dear Erika Beispiel,")
+        member.parent_id = False
+        self.assertEqual(self.greeting(member), "Dear Sir or Madam,")
+
+    def test_general_greeting_in_every_language(self):
+        """The general greeting and the name in German, English and French."""
+        for lang in ("de_DE", "fr_FR"):
+            self.env["res.lang"]._activate_lang(lang)
+        self.env["ir.module.module"]._load_module_terms(
+            ["partner_letter_salutation"], ["de_DE", "fr_FR"], overwrite=True
+        )
+        association = self.env["res.partner"].create(
+            {"name": "Sportverein Musterstadt"}
+        )
+        member = self.env["res.partner"].create(
+            {"name": "Max Muster", "parent_id": association.id}
+        )
+        for lang, general, by_name in (
+            ("de_DE", "Guten Tag,", "Guten Tag Max Muster,"),
+            ("en_US", "Dear Sir or Madam,", "Dear Max Muster,"),
+            ("fr_FR", "Bonjour,", "Bonjour Max Muster,"),
+        ):
+            self.assertEqual(self.greeting(association, lang), general)
+            self.assertEqual(self.greeting(member, lang), by_name)
 
     def test_greeting_in_german(self):
         self.env["res.lang"]._activate_lang("de_DE")

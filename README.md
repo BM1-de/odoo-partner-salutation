@@ -26,8 +26,11 @@ Briefanrede steht dort ebenfalls neben der Position.*
 
 - Mit Briefanrede: „Guten Tag Frau Muster,“, englisch „Dear Frau Muster,“, französisch
   „Bonjour Frau Muster,“.
-- Ohne Briefanrede: Personen mit ihrem Namen („Guten Tag Anna Beispiel,“), Firmen und Adressen
-  wie eine Rechnungsadresse allgemein („Guten Tag,“ bzw. „Dear Sir or Madam,“).
+- Ohne Briefanrede: Ansprechpersonen einer Firma oder Organisation (Kontakt vom Typ „Kontakt“
+  unter einem übergeordneten Kontakt) mit ihrem Namen („Guten Tag Anna Beispiel,“), alle
+  anderen Kontakte allgemein („Guten Tag,“ bzw. „Dear Sir or Madam,“): Firmen, Kontakte ohne
+  übergeordneten Kontakt wie ein Verein oder ein Privatkunde, Adressen wie eine
+  Rechnungsadresse.
 - Die Rechnungs- und die Gutschriftmail beginnen nach der Installation in allen Sprachen
   mit dieser Grußzeile. Im Standard von Odoo stünde dort „Guten Tag Anna Beispiel
   (Muster GmbH),“ oder der Name einer Rechnungsadresse.
@@ -39,8 +42,9 @@ Briefanrede steht dort ebenfalls neben der Position.*
 
 ## Einrichtung
 
-- Die Briefanrede am Kontakt neben der Position eintragen; Kontakte ohne Briefanrede
-  brauchen nichts.
+- Die Briefanrede am Kontakt neben der Position eintragen. Ansprechpersonen einer Firma,
+  Firmen und Rechnungsadressen brauchen keine; ein Privatkunde ohne übergeordneten Kontakt
+  braucht eine, damit er persönlich angesprochen wird.
 - Andere Mailvorlagen können die Grußzeile ebenfalls nutzen:
   `<t t-out="object.partner_id.letter_greeting"/>` statt der eigenen Begrüßung.
 
@@ -50,11 +54,12 @@ Briefanrede steht dort ebenfalls neben der Position.*
   Grußzeile.
 - Eine schon geänderte Rechnungs- oder Gutschriftmail, deren erster Absatz nicht mit
   Odoos Begrüßung beginnt, bleibt unverändert.
-- Was eine Firma ist, berechnet Odoo 20 selbst: ein Kontakt ohne übergeordneten Kontakt,
-  der eine Steuernummer oder USt-IdNr. hat. Ein Verein, eine Behörde oder ein
-  Kleinunternehmen ohne Steuernummer gilt als Person und wird mit dem Namen angesprochen
-  („Guten Tag Sportverein Musterstadt,“). Die allgemeine Grußzeile braucht die
-  Steuernummer am Kontakt.
+- Odoo 20 kennt keine Umschaltung zwischen Person und Unternehmen und keine getrennten
+  Vor- und Nachnamen mehr und zählt jeden Kontakt ohne Steuernummer oder USt-IdNr. als
+  Person, auch einen Verein oder eine Behörde. Ob ein Name der einer Person ist, lässt sich
+  daher nicht erkennen. Deshalb bekommt jeder Kontakt ohne übergeordneten Kontakt ohne
+  Briefanrede „Guten Tag,“ – auch ein Privatkunde. Mit Briefanrede („Frau Beispiel“) wird er
+  persönlich angesprochen.
 
 ## Mehr Dokumentation
 

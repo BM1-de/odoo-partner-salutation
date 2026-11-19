@@ -1,8 +1,6 @@
 - Only German, English and French; other languages get the English greeting.
 - An invoice or credit note mail whose first paragraph does not start with
   Odoo's greeting is left unchanged.
-- Odoo 20 computes what a company is: a contact without a parent contact
-  that has a tax ID. An association, a public body or a small business
-  without a tax ID counts as a person and is greeted by its name („Guten Tag
-  Sportverein Musterstadt,“). The general greeting needs the tax ID on the
-  contact.
+- A private customer without a parent contact gets the general greeting, as
+  Odoo 20 cannot tell a person from an association by its name. Enter a
+  salutation, for example „Frau Beispiel“, to greet such a contact personally.

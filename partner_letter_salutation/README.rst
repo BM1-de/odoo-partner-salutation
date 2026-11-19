@@ -28,9 +28,19 @@ language of the mail:
 
 - with a salutation: „Guten Tag Frau Muster,“, „Dear Frau Muster,“ or
   „Bonjour Frau Muster,“;
-- without one, persons by their name: „Guten Tag Anna Beispiel,“;
-- companies and addresses such as an invoice address in general terms:
-  „Guten Tag,“, „Dear Sir or Madam,“ or „Bonjour,“.
+- without one, a contact person of a company or organisation (a contact
+  of the type „Contact“ below another contact) by their name: „Guten Tag
+  Anna Beispiel,“;
+- every other contact without a salutation in general terms: „Guten
+  Tag,“, „Dear Sir or Madam,“ or „Bonjour,“. These are companies,
+  contacts without a parent contact such as an association or a private
+  customer, and addresses such as an invoice address.
+
+Odoo 20 has neither a switch between person and company nor first and
+last names, and counts every contact without a tax ID as a person, also
+an association or a public body. Whether a name is the name of a person,
+it cannot tell; only a contact person below another contact is surely
+one.
 
 Odoo has no title field on contacts any more, and its invoice mail
 starts with „Dear Anna Beispiel (Muster GmbH),“, or with the name of an
@@ -51,8 +61,10 @@ the original greeting back.
 Configuration
 =============
 
-Enter the salutation on the contact, next to the job position. Contacts
-without a salutation need nothing.
+Enter the salutation on the contact, next to the job position. Contact
+persons of a company, companies and invoice addresses need none; a
+private customer without a parent contact needs one to be greeted
+personally.
 
 Other mail templates can use the greeting line as well, with
 ``<t t-out="object.partner_id.letter_greeting"/>`` instead of their own
@@ -78,11 +90,10 @@ Known issues / Roadmap
   greeting.
 - An invoice or credit note mail whose first paragraph does not start
   with Odoo's greeting is left unchanged.
-- Odoo 20 computes what a company is: a contact without a parent contact
-  that has a tax ID. An association, a public body or a small business
-  without a tax ID counts as a person and is greeted by its name („Guten
-  Tag Sportverein Musterstadt,“). The general greeting needs the tax ID
-  on the contact.
+- A private customer without a parent contact gets the general greeting,
+  as Odoo 20 cannot tell a person from an association by its name. Enter
+  a salutation, for example „Frau Beispiel“, to greet such a contact
+  personally.
 
 Changelog
 =========
@@ -90,10 +101,14 @@ Changelog
 20.0.1.0.0 (2026-11-19)
 -----------------------
 
-- Migration to Odoo 20. What a company is, Odoo 20 computes itself: a
-  contact without a parent contact that has a tax ID. Only such a
-  contact gets the general greeting; a company without a tax ID is
-  addressed by its name, like a person.
+- Migration to Odoo 20.
+- Odoo 20 has no switch between person and company any more and counts a
+  contact without a tax ID as a person. Without a salutation, only a
+  contact person below another contact is greeted by their name now;
+  every contact without a parent contact gets the general greeting, also
+  an association or a private customer without a tax ID („Guten Tag,“
+  instead of „Guten Tag Sportverein Musterstadt,“). A salutation greets
+  such a contact personally.
 
 19.0.1.0.0
 ----------

@@ -18,8 +18,9 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         Partner = cls.env["res.partner"]
+        # Odoo 20 computes is_company: no parent contact and a tax ID
         cls.company_partner = Partner.create(
-            {"name": "Muster GmbH", "is_company": True}
+            {"name": "Muster GmbH", "vat": "DE123456789"}
         )
         cls.person = Partner.create(
             {"name": "Anna Beispiel", "parent_id": cls.company_partner.id}
@@ -46,6 +47,20 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
         self.invoice_address.letter_salutation = "Frau Muster"
         self.assertEqual(self.greeting(self.invoice_address), "Dear Frau Muster,")
 
+    def test_company_is_what_odoo_computes(self):
+        """A contact without a tax ID is a person to Odoo 20, whatever its name."""
+        self.assertTrue(self.company_partner.is_company)
+        association = self.env["res.partner"].create(
+            {"name": "Sportverein Musterstadt", "is_company": True}
+        )
+        self.assertFalse(association.is_company)
+        self.assertEqual(self.greeting(association), "Dear Sportverein Musterstadt,")
+        association.vat = "DE987654321"
+        self.assertTrue(association.is_company)
+        self.assertEqual(self.greeting(association), "Dear Sir or Madam,")
+        # a person stays a person, also the contact of a company with a tax ID
+        self.assertFalse(self.person.is_company)
+
     def test_greeting_in_german(self):
         self.env["res.lang"]._activate_lang("de_DE")
         self.env["ir.module.module"]._load_module_terms(
@@ -65,6 +80,32 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
         body = self.template.with_context(lang="fr_FR").body_html
         self.assertIn("object.partner_id.letter_greeting", body)
         self.assertEqual(body.count("letter_greeting"), 1)
+
+    def test_translation_written_later(self):
+        """A translation with Odoo's greeting gets the greeting line as well.
+
+        Odoo 20 ships no translation of the text of the two mails yet, so the
+        test writes one itself instead of relying on the files of Odoo.
+        """
+        self.env["res.lang"]._activate_lang("fr_FR")
+        uninstall_hook(self.env)
+        english = self.template.body_html
+        self.assertIn("Dear", english)
+        french_template = self.template.with_context(lang="fr_FR")
+        french_template.body_html = english.replace("Dear", "Bonjour", 1)
+        french = french_template.body_html
+        self.assertIn("Bonjour", french)
+        self.assertNotEqual(french, english)
+        self.env["ir.module.module"]._load_module_terms(
+            ["account"], ["fr_FR"], overwrite=True
+        )
+        for template in (self.template, french_template):
+            self.assertEqual(template.body_html.count("letter_greeting"), 1)
+        self.assertNotIn("Bonjour", french_template.body_html)
+        # uninstalling puts the greeting of each language back
+        uninstall_hook(self.env)
+        self.assertEqual(french_template.body_html, french)
+        self.assertEqual(self.template.body_html, english)
 
     def test_templates_use_the_greeting(self):
         for template in (self.template, self.credit_note_template):
@@ -87,7 +128,7 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
         self.assertFalse(
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param(
+            .get_str(
                 "partner_letter_salutation.greeting.account.email_template_edi_invoice"
             )
         )
@@ -98,17 +139,17 @@ class TestLetterSalutation(AccountTestInvoicingCommon):
 
     def test_changed_template_is_left_alone(self):
         uninstall_hook(self.env)
-        self.template.body_html = "<div><p>Hello,<br/>see attached.</p></div>"
+        self.template.body_html = "<div><p>Hello,<br>see attached.</p></div>"
         post_init_hook(self.env)
         self.assertNotIn("letter_greeting", self.template.body_html)
         # nothing stored for the invoice mail: uninstalling leaves it alone
         uninstall_hook(self.env)
         self.assertEqual(
-            self.template.body_html, "<div><p>Hello,<br/>see attached.</p></div>"
+            self.template.body_html, "<div><p>Hello,<br>see attached.</p></div>"
         )
 
     def test_template_changed_after_installation(self):
-        custom = "<div><p>Hello,<br/>a custom text.</p></div>"
+        custom = "<div><p>Hello,<br>a custom text.</p></div>"
         self.template.body_html = custom
         uninstall_hook(self.env)
         self.assertEqual(self.template.body_html, custom)

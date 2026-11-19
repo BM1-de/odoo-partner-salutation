@@ -17,7 +17,7 @@ Letter Salutation
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-BM1--de%2Fodoo--partner--salutation-lightgray.png?logo=github
-    :target: https://github.com/BM1-de/odoo-partner-salutation/tree/19.0/partner_letter_salutation
+    :target: https://github.com/BM1-de/odoo-partner-salutation/tree/20.0/partner_letter_salutation
     :alt: BM1-de/odoo-partner-salutation
 
 |badge1| |badge2| |badge3|
@@ -32,7 +32,7 @@ language of the mail:
 - companies and addresses such as an invoice address in general terms:
   „Guten Tag,“, „Dear Sir or Madam,“ or „Bonjour,“.
 
-Odoo 19 has no title field on contacts any more, and its invoice mail
+Odoo has no title field on contacts any more, and its invoice mail
 starts with „Dear Anna Beispiel (Muster GmbH),“, or with the name of an
 invoice address. On installation, the invoice and the credit note mail
 use the new greeting line instead, in every language; uninstalling puts
@@ -66,7 +66,10 @@ greeting line of the invoice address, in the language of the mail.
 
 |The greeting line in the invoice mail|
 
-.. |The greeting line in the invoice mail| image:: https://raw.githubusercontent.com/BM1-de/odoo-partner-salutation/19.0/partner_letter_salutation/static/description/mail.png
+The screenshot was taken with Odoo 19; the greeting line is the same in
+Odoo 20.
+
+.. |The greeting line in the invoice mail| image:: https://raw.githubusercontent.com/BM1-de/odoo-partner-salutation/20.0/partner_letter_salutation/static/description/mail.png
 
 Known issues / Roadmap
 ======================
@@ -75,9 +78,22 @@ Known issues / Roadmap
   greeting.
 - An invoice or credit note mail whose first paragraph does not start
   with Odoo's greeting is left unchanged.
+- Odoo 20 computes what a company is: a contact without a parent contact
+  that has a tax ID. An association, a public body or a small business
+  without a tax ID counts as a person and is greeted by its name („Guten
+  Tag Sportverein Musterstadt,“). The general greeting needs the tax ID
+  on the contact.
 
 Changelog
 =========
+
+20.0.1.0.0 (2026-11-19)
+-----------------------
+
+- Migration to Odoo 20. What a company is, Odoo 20 computes itself: a
+  contact without a parent contact that has a tax ID. Only such a
+  contact gets the general greeting; a company without a tax ID is
+  addressed by its name, like a person.
 
 19.0.1.0.0
 ----------
@@ -91,7 +107,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/BM1-de/odoo-partner-salutation/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/BM1-de/odoo-partner-salutation/issues/new?body=module:%20partner_letter_salutation%0Aversion:%2019.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/BM1-de/odoo-partner-salutation/issues/new?body=module:%20partner_letter_salutation%0Aversion:%2020.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -119,6 +135,6 @@ Current maintainer:
 
 |maintainer-bm1-phillip| 
 
-This module is part of the `BM1-de/odoo-partner-salutation <https://github.com/BM1-de/odoo-partner-salutation/tree/19.0/partner_letter_salutation>`_ project on GitHub.
+This module is part of the `BM1-de/odoo-partner-salutation <https://github.com/BM1-de/odoo-partner-salutation/tree/20.0/partner_letter_salutation>`_ project on GitHub.
 
 You are welcome to contribute.

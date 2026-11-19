@@ -4,7 +4,7 @@
     "name": "Letter Salutation",
     "summary": "Salutation on the contact and the matching greeting in the invoice "
     "and credit note mails",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Accounting/Accounting",
     "website": "https://github.com/BM1-de/odoo-partner-salutation",
     "author": "Baumgärtner Marketing GmbH",

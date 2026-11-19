@@ -53,7 +53,7 @@ def apply_greeting(env):
         if not template:
             continue
         bodies = _bodies(env, template)
-        originals = json.loads(Parameter.get_param(PARAMETER % xmlid) or "{}")
+        originals = json.loads(Parameter.get_str(PARAMETER % xmlid) or "{}")
         changed = False
         for lang, body in bodies.items():
             match = GREETING.search(body or "")
@@ -68,7 +68,7 @@ def apply_greeting(env):
             bodies[lang] = body[: match.start(2)] + LINE + body[match.end(2) :]
             changed = True
         if changed:
-            Parameter.set_param(PARAMETER % xmlid, json.dumps(originals))
+            Parameter.set_str(PARAMETER % xmlid, json.dumps(originals))
             _store(env, template, bodies)
 
 
@@ -79,7 +79,7 @@ def post_init_hook(env):
 def uninstall_hook(env):
     Parameter = env["ir.config_parameter"].sudo()
     for xmlid in TEMPLATES:
-        stored = Parameter.get_param(PARAMETER % xmlid)
+        stored = Parameter.get_str(PARAMETER % xmlid)
         Parameter.search([("key", "=", PARAMETER % xmlid)]).unlink()
         template = env.ref(xmlid, raise_if_not_found=False)
         if not stored or not template:

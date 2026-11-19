@@ -84,7 +84,7 @@ banner(
         "Letter Salutation",
         "„Guten Tag Frau Muster,“ instead of the full name",
         "in the invoice and credit note mails, in every language",
-        "Odoo 19 · German, English and French",
+        "Odoo 20 · German, English and French",
     ),
 )
 print("ok")
